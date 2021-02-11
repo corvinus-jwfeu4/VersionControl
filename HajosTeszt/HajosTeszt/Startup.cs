@@ -10,28 +10,6 @@ using System.Threading.Tasks;
 
 namespace HajosTeszt
 {
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseDefaultFiles();
-        app.UseStaticFiles(); //A sorrend fontos!
-
-        app.UseRouting();
-
-        //app.UseEndpoints(endpoints =>
-        //{
-        //    endpoints.MapGet("/", async context =>
-        //    {
-        //        await context.Response.WriteAsync("Hello World!");
-        //    });
-        //});
-    }
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -48,15 +26,20 @@ namespace HajosTeszt
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles(); //A sorrend fontos!
+
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-  //                  await context.Response.WriteAsync("Hello World!");//
-                });
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapGet("/", async context =>
+            //    {
+            //        await context.Response.WriteAsync("Hello World!");
+            //    });
+            //});
         }
     }
 }
