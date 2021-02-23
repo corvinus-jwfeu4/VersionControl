@@ -1,7 +1,7 @@
 ﻿div {
     margin: 10px;
     padding: 20px;
-    border: 1px solid red;
+    border: 1px solid black;
     border-radius: 25px;
 }
 
@@ -17,17 +17,23 @@ a {
     color: white;
 }
 a:hover {
-    background-color: fuchsia
+    background-color: limegreen;
 }
 span {
     font-weight: bold;
     font-style: italic;
     color: fuchsia;
+    font-size: 30px;
+}
+Szabad {
+    font-weight: bold;
+    font-style: italic;
+    color: lightslategray;
     font-size: 40px;
 }
 
 #listak {
-    background-color: lightgrey;
+    background-color: limegreen;
 }
 
 img {
@@ -35,10 +41,14 @@ img {
     margin: auto;
 }
 .megisfeher {
-    background-color: white;
-    width: 100px;
+    background-color: lightgray;
+    width: 200px;
     border-radius: 25px;
+    color: fuchsia;
 }
 .felsorolas {
     font-style: italic;
+    font-size: larger;
+    color: fuchsia;
+    font-weight: bold;
 }
