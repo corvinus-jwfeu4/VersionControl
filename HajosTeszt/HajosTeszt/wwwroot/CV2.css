@@ -1,0 +1,129 @@
+﻿div {
+    margin: 10px;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+a {
+    padding: 10px;
+    border-radius: 25px;
+    background-color: fuchsia;
+    color: white;
+}
+
+    a:hover {
+        background-color: limegreen;
+    }
+
+span {
+    font-weight: bold;
+    font-style: italic;
+    color: fuchsia;
+    font-size: 30px;
+}
+
+Szabad {
+    font-weight: bold;
+    font-style: italic;
+    color: lightslategray;
+    font-size: 40px;
+    background-color: lightblue;
+}
+
+#listak {
+    background-color: limegreen;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+.megisfeher {
+    width: 200px;
+    border-radius: 25px;
+    text-align: left;
+    background-color: lightblue;
+}
+
+.felsorolas {
+    font-style: italic;
+    font-size: larger;
+    color: fuchsia;
+    font-weight: bold;
+
+}
+
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-weight: bold;
+    text-align: center;
+}
+#article,
+#aside,
+#footer,
+#header,
+#nav {
+    padding: 20px;
+}
+
+#header {
+    background-color: lightcoral;
+}
+#aside {
+    background-color: lightgreen
+}
+
+#footer {
+    background-color: chocolate;
+}
+
+#nav a {
+    display: flex;
+    flex: 1 1 auto;
+    text-decoration: none;
+    color: black;
+}
+@media screen and (min-width: 800px) {
+    body{
+        display: flex;
+        flex-direction: column;
+        max-width: 1500px;
+        margin: auto;
+    }
+    #main {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: lightblue;
+    }
+    #nav,
+    #header {
+        order: -1;
+    }
+    #article{
+        flex: 1 1 75%;
+    }
+    #aside{
+        flex: 1 1 25%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
