@@ -1,130 +1,183 @@
-﻿var kérdések;
+﻿window.onload = function () {
+    /*letöltés();*/
+}
+
+var aktKérdés;
 var kérdésSorszám = 0;
 
-function letöltés() {
-    fetch('questions.json')
-        .then(response => response.json())
-        .then(data => letöltésBefejeződött(data));
+/*function letöltés() {*/
+//fetch('/questions.json')
+//    .then(response => response.json())
+//    .then(data => letöltésBefejeződött(data)
+//);
+
+
+//fetch('/questions/4')
+//    .then(response => response.json())
+//    .then(data => console.log(data)
+//);
+
+fetch('/questions/1')
+    .then(response => response.json())
+    .then(data => kérdésMegjelenítés(data)
+    );
+
+
+//function letöltésBefejeződött(d) {
+//    console.log("Sikeres letöltés")
+//    console.log(d)
+//    kérdések = d;
+//    kérdésMegjelenítés(kérdésSorszám)
+//}
+/*}*/
+
+
+//function kérdésMegjelenítés(kérdés) {
+//    document.getElementById("kérdés_szöveg").innerHTML = kérdések[kérdés].questionText;
+//    document.getElementById("válasz1").innerHTML = kérdések[kérdés].answer1;
+//    document.getElementById("válasz2").innerHTML = kérdések[kérdés].answer2;
+//    document.getElementById("válasz3").innerHTML = kérdések[kérdés].answer3;
+
+//    if (kérdések[kérdés].image != "") {
+//        document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdések[kérdés].image;
+
+//    }
+//    else {
+//        document.getElementById("kép1").src = "";
+//    }
+//}
+
+
+function kérdésBetöltés(id) {
+    fetch(`/questions/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                console.error(`Hibás válasz: ${response.status}`)
+            }
+            else {
+                return response.json()
+            }
+        })
+        .then(data => kérdésMegjelenítés(data));
 }
 
-function letöltésBefejeződött(d) {
-    console.log("Sikeres letöltés")
-    console.log(d)
-    kérdések = d
-    kérdésMegjelenítés(0);
-}
 
-var kérdésMegjelenítés = function (kérdésSzáma) {
+//function kérdésBetöltés(id) {
+//    fetch(`/questions/${id}`)
+//        .then(válaszfeldolgozás)
+//        .then(kérdésMegjelenítés);
+//}    
 
-    let kérdés_szöveg = document.getElementById("kérdés_szöveg");
-    let kép = document.getElementById("kép1");
-    let válasz1 = document.getElementById("válasz1");
-    let válasz2 = document.getElementById("válasz2");
-    let válasz3 = document.getElementById("válasz3");
 
-    kérdés_szöveg.innerHTML = kérdések[kérdésSzáma].questionText
-
-    if (kérdések[kérdésSzáma].image != "") {
-        kép.src = "https://szoft1.comeback.hu/hajo/" + kérdések[kérdésSzáma].image;
+function válaszfeldolgozás(válasz) {
+    if (!válasz.ok) {
+        console.error(`Hibás válasz: ${response.status}`)
     }
     else {
-        kép.src = "";
+        return válasz.json()
     }
-
-    válasz1.innerText = kérdések[kérdésSzáma].answer1
-    válasz2.innerText = kérdések[kérdésSzáma].answer2
-    válasz3.innerText = kérdések[kérdésSzáma].answer3
 }
 
 
-window.onload = () => {
 
-    letöltés();
+function kérdésMegjelenítés(kérdés) {
+    aktKérdés = kérdés;
+    console.log(kérdés);
+    document.getElementById("kérdés_szöveg").innerText = kérdés.questionText
+    document.getElementById("válasz1").innerText = kérdés.answer1
+    document.getElementById("válasz2").innerText = kérdés.answer2
+    document.getElementById("válasz3").innerText = kérdés.answer3
+    document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
 
-    document.getElementById("vissza").onclick = () => {
-
-        document.getElementById("válasz1").style.backgroundColor = "peachpuff";
-        document.getElementById("válasz2").style.backgroundColor = "peachpuff";
-        document.getElementById("válasz3").style.backgroundColor = "peachpuff";
-
-        document.getElementById("válasz1").style.pointerEvents = 'auto';
-        document.getElementById("válasz2").style.pointerEvents = 'auto';
-        document.getElementById("válasz3").style.pointerEvents = 'auto';
-
-        if (kérdésSorszám == 0) {
-            kérdésSorszám = kérdések.length - 1
-            kérdésMegjelenítés(kérdésSorszám);
-        }
-        else {
-            kérdésMegjelenítés(--kérdésSorszám);
-        }
+    if (kérdés.image != "") {
+        document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
 
     }
-
-    document.getElementById("előre").onclick = () => {
-
-        document.getElementById("válasz1").style.backgroundColor = "peachpuff";
-        document.getElementById("válasz2").style.backgroundColor = "peachpuff";
-        document.getElementById("válasz3").style.backgroundColor = "peachpuff";
-
-        document.getElementById("válasz1").style.pointerEvents = 'auto';
-        document.getElementById("válasz2").style.pointerEvents = 'auto';
-        document.getElementById("válasz3").style.pointerEvents = 'auto';
-
-        if (kérdésSorszám == kérdések.length - 1) {
-            kérdésSorszám = 0;
-            kérdésMegjelenítés(kérdésSorszám);
-        }
-        else {
-            kérdésMegjelenítés(++kérdésSorszám);
-        }
-
+    else {
+        document.getElementById("kép1").src = "";
     }
 
 
-    document.getElementById("válasz1").onclick = () => {
+}
 
-        if (kérdések[kérdésSorszám].correctAnswer == 1) {
-            document.getElementById("válasz1").style.background = "darkgreen";
-        }
-        else {
-            document.getElementById("válasz1").style.background = "lightcoral";
-            document.getElementById("válasz" + kérdések[kérdésSorszám].correctAnswer).style.background = "darkgreen";
-        }
 
-        document.getElementById("válasz1").style.pointerEvents = 'none';
-        document.getElementById("válasz2").style.pointerEvents = 'none';
-        document.getElementById("válasz3").style.pointerEvents = 'none';
+function válaszok(n) {
+    if (n == aktKérdés.correctAnswer) {
+        document.getElementById("válasz" + n).classList.add("jo");
+    }
+    else {
+        document.getElementById("válasz" + n).classList.add("rossz");
+    }
+}
 
+function Clear() {
+    document.getElementById("válasz1").classList.remove("jo");
+    document.getElementById("válasz1").classList.remove("rossz");
+    document.getElementById("válasz2").classList.remove("jo");
+    document.getElementById("válasz2").classList.remove("rossz");
+    document.getElementById("válasz3").classList.remove("jo");
+    document.getElementById("válasz3").classList.remove("rossz");
+}
+
+
+function elsőVálasz() {
+    válaszok(1);
+}
+
+function másodikVálasz() {
+    válaszok(2);
+}
+
+function harmadikVálasz() {
+    válaszok(3);
+}
+
+function Vissza() {
+
+    //if (kérdésSorszám == 0) {
+    //    kérdésSorszám = kérdések.length - 1;
+    //    letöltés()
+    //    Clear()
+    //}
+    //else {
+    //    kérdésSorszám--;
+    //    letöltés();
+    //    Clear()
+    //}
+
+    if (kérdésSorszám == 1) {
+        kérdésSorszám = 859;
+    }
+    else {
+        kérdésSorszám--;
     }
 
-    document.getElementById("válasz2").onclick = () => {
 
-        if (kérdések[kérdésSorszám].correctAnswer == 2) {
-            document.getElementById("válasz2").style.background = "darkgreen";
-        }
-        else {
-            document.getElementById("válasz2").style.background = "lightcoral";
-            document.getElementById("válasz" + kérdések[kérdésSorszám].correctAnswer).style.background = "darkgreen";
-        }
+    kérdésBetöltés(kérdésSorszám);
+    Clear()
+}
 
-        document.getElementById("válasz1").style.pointerEvents = 'none';
-        document.getElementById("válasz2").style.pointerEvents = 'none';
-        document.getElementById("válasz3").style.pointerEvents = 'none';
+function Előre() {
+
+    //if (kérdésSorszám == kérdések.length - 1) {
+    //    kérdésSorszám = 0;
+    //    letöltés()
+    //    Clear()
+    //}
+    //else {
+    //    kérdésSorszám++;
+    //    letöltés();
+    //    Clear()
+    //}
+
+
+    if (kérdésSorszám == 859) {
+        kérdésSorszám = 1;
+    }
+    else {
+        kérdésSorszám++;
     }
 
-    document.getElementById("válasz3").onclick = () => {
-
-        if (kérdések[kérdésSorszám].correctAnswer == 3) {
-            document.getElementById("válasz3").style.background = "darkgreen";
-        }
-        else {
-            document.getElementById("válasz3").style.background = "lightcoral";
-            document.getElementById("válasz" + kérdések[kérdésSorszám].correctAnswer).style.background = "darkgreen";
-        }
-
-        document.getElementById("válasz1").style.pointerEvents = 'none';
-        document.getElementById("válasz2").style.pointerEvents = 'none';
-        document.getElementById("válasz3").style.pointerEvents = 'none';
-    }
+    kérdésBetöltés(kérdésSorszám);
+    Clear()
 }
