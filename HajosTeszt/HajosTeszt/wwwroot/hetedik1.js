@@ -48,17 +48,47 @@ fetch('/questions/1')
 //}
 
 
+var hotList = [];          
+var questionsInHotList = 3;
+var displayedQuestion;     
+var numberOfQuestions;     
+var nextQuestion = 1;
+
 function kérdésBetöltés(id) {
-    fetch(`/questions/${id}`)
-        .then(response => {
-            if (!response.ok) {
-                console.error(`Hibás válasz: ${response.status}`)
+    fetch(`/questions/${questionNumber}`)
+        .then(
+            result => {
+                if (!result.ok) {
+                    console.error(`Hibás letöltés: ${response.status}`)
+                }
+                else {
+                    return result.json()
+                }
             }
-            else {
-                return response.json()
+        )
+        .then(
+            q => {
+                hotList[destination].question = q;
+                hotList[destination].goodAnswers = 0;
+                console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
             }
-        })
-        .then(data => kérdésMegjelenítés(data));
+        );
+}
+
+function init() {
+    for (var i = 0; i < questionsInHotList; i++) {
+        let q = {
+            question: {},
+            goodAnswers: 0
+        }
+        hotList[i] = q;
+    }
+
+    //Első kérdések letöltése
+    for (var i = 0; i < questionsInHotList; i++) {
+        kérdésBetöltés(nextQuestion, i);
+        nextQuestion++;
+    }
 }
 
 
@@ -81,22 +111,20 @@ function válaszfeldolgozás(válasz) {
 
 
 function kérdésMegjelenítés(kérdés) {
-    aktKérdés = kérdés;
+    let kérdés = hotList[displayedQuestion].question;
     console.log(kérdés);
     document.getElementById("kérdés_szöveg").innerText = kérdés.questionText
     document.getElementById("válasz1").innerText = kérdés.answer1
-    document.getElementById("válasz2").innerText = kérdés.answer2
-    document.getElementById("válasz3").innerText = kérdés.answer3
-    document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
-
-    if (kérdés.image != "") {
-        document.getElementById("kép1").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
-
-    }
-    else {
-        document.getElementById("kép1").src = "";
-    }
-
+        .then(
+            q => {
+                hotList[destination].question = q;
+                hotList[destination].goodAnswers = 0;
+                console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`)
+                if (displayedQuestion == undefined && destination == 0) {
+                    displayedQuestion = 0;
+                    kérdésMegjelenítés();
+                }
+            }
 
 }
 
@@ -159,16 +187,10 @@ function Vissza() {
 
 function Előre() {
 
-    //if (kérdésSorszám == kérdések.length - 1) {
-    //    kérdésSorszám = 0;
-    //    letöltés()
-    //    Clear()
-    //}
-    //else {
-    //    kérdésSorszám++;
-    //    letöltés();
-    //    Clear()
-    //}
+    clearTimeout(timeoutHandler)
+    displayedQuestion++;
+    if (displayedQuestion == questionsInHotList) displayedQuestion = 0;
+    kérdésMegjelenítés()
 
 
     if (kérdésSorszám == 859) {
