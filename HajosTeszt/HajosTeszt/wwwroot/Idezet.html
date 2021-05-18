@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+</head>
+<body>
+    <form>
+        <div id='IdezetList'></div>
+        <div>
+            <input id='IdezetText' type='text' placeholder='Bármilyen idézet' />
+        </div>
+        <button id='addButton' onclick="Hozzáad()">Új idézet felvétele</button>
+    </form>
+    <script>
+        
+        function Hozzáad() {
+            let data = {
+                idezetText: document.getElementById('IdezetText').value
+            }
+
+            fetch('api/Idezet',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+        }
+
+
+            function IdezetBetoltes() {
+                fetch('api/Idezet')
+                    .then(result => {
+                        if (!result.ok) {
+                            console.error(`Hibás letöltés: ${result.status}`);
+                            return null;
+                        }
+                        else {
+                            return result.json();
+                        }
+                    })
+                    .then(data => {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            document.getElementById("IdezetList").innerHTML += data[i].idezetText += "<br/>"
+                        }
+                    });
+            }
+
+            window.onload = () => {
+                IdezetBetoltes();
+
+            };
+
+    </script>
+</body>
+</html>
