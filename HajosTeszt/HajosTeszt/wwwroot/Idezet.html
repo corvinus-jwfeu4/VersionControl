@@ -10,8 +10,41 @@
         <div>
             <input id='IdezetText' type='text' placeholder='Bármilyen idézet' />
         </div>
-        <button id='addButton' onclick="Hozzáad()">Új idézet felvétele</button>
+        <button id='addButton'class="kattinthato" onclick="Hozzáad()">Új idézet felvétele</button>
     </form>
+    <style>
+        html, body{
+            background-color: fuchsia;
+            height:100%;
+        }
+        div{
+            margin:10px;
+            border: 2px solid black;
+            background-color: limegreen;
+        }
+        #IdezetList{
+            flex-grow: 1;
+            flex-shrink: 1;
+            background-color:tan;
+        }
+        
+        #addButton{
+            padding: 20px;
+            width: 200px;
+            background-color:tan;
+            cursor:pointer;
+        }
+        #IdezetText{
+            flex-grow;
+            flex-shrink;
+            width: 400px;
+        }
+        .kattinthato:hover{
+            background-color:tan;
+            color:white;
+            cursor:pointer;
+        }
+    </style>
     <script>
         
         function Hozzáad() {
@@ -26,7 +59,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
-                })
+                });
         }
 
 
