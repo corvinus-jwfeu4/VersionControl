@@ -7,15 +7,26 @@
 <body>
     <form>
         <div id='IdezetList'></div>
-        <div>
-            <input id='IdezetText' type='text' placeholder='Bármilyen idézet' />
+        <div class="kozep">
+            <input id='IdezetText' type='text' placeholder='Idézet hozzáadása' />
+            <input id='torlendo' type='number' placeholder='Törlendő idézet sorszáma' />
+
         </div>
-        <button id='addButton'class="kattinthato" onclick="Hozzáad()">Új idézet felvétele</button>
+        <div class="kozep">
+            <button id='addButton' class="kattinthato" onclick="Hozzáad()">Új idézet felvétele</button>
+            <button id='deletebutton' class="kattinthato" onclick="torles()">Kiválasztott idézet törlése</button>
+        </div>
+            <p>
+            Fel nem használt API pontok: put, count, ID alapján megjelenítő végpont
+        </p>
     </form>
     <style>
         html, body{
             background-color: fuchsia;
             height:100%;
+        }
+        .kozep{
+            text-align:center;
         }
         div{
             margin:10px;
@@ -33,6 +44,18 @@
             width: 200px;
             background-color:tan;
             cursor:pointer;
+            text-align:center;
+        }
+        #torlendo {
+            width: 400px;
+        }
+
+        #deletebutton {
+            padding: 20px;
+            width: 200px;
+            background-color: tan;
+            cursor: pointer;
+            text-align: center;
         }
         #IdezetText{
             width: 400px;
@@ -41,6 +64,7 @@
             background-color:tan;
             color:white;
             cursor:pointer;
+            text-align:center;
         }
     </style>
     <script>
@@ -58,6 +82,7 @@
                     },
                     body: JSON.stringify(data)
                 });
+            IdezetBetoltes();
         }
 
 
@@ -75,7 +100,7 @@
                     .then(data => {
                         console.log(data);
                         for (var i = 0; i < data.length; i++) {
-                            document.getElementById("IdezetList").innerHTML += data[i].idezetText += "<br/>"
+                            document.getElementById("IdezetList").innerHTML += data[i].idezetSk +". "+ data[i].idezetText + "<br/>"
                         }
                     });
             }
@@ -83,7 +108,22 @@
             window.onload = () => {
                 IdezetBetoltes();
 
-            };
+        };
+
+        function torles() {
+            let data = {
+                idezetSk: parseInt(document.getElementById("torlendo").value)
+            }
+            console.log(data);
+            console.log(data.idezetSk);
+            fetch('api/Idezet/' + data.idezetSk, {
+                method: 'DELETE',
+            })
+                .then(res => res.text())
+                .then(res => console.log(res));
+
+            IdezetBetoltes();
+        }
 
     </script>
 </body>
