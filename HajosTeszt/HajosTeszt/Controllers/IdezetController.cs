@@ -58,5 +58,15 @@ namespace HajosTeszt.Controllers
             context.Remove(törlendőIdezet);
             context.SaveChanges();
         }
+
+        [HttpGet]
+        [Route("count")]
+        public int IdezetekSzama()
+        {
+            IdezetContext context = new IdezetContext();
+            int idezetszam = context.Idezets.Count();
+
+            return idezetszam;
+        }
     }
 }
